@@ -65,12 +65,13 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 
 func getAllMarkers() string {
 	allMarkers := []marker{
-		{"Cobalt Blue", "aaaaa", true},
-		{"Sap Green", "aaaaaa", true},
+		{"Cobalt Blue", "0047ab", true},
+		{"Sap Green", "507d2a", true},
+		{"Fairy Red", "ffcccc", true},
 	}
 	htmlString := ""
 	for _, copics := range allMarkers {
-		htmlString = fmt.Sprintf("%s\n<li>%s</li>", htmlString, copics.Name)
+		htmlString = fmt.Sprintf("%s\n<div style=\"background-color: #%s ; width: 150px; padding: 10px; border: 1px solid green;\"><li>%s</li></div>", htmlString, copics.ColorCode, copics.Name)
 
 	}
 
