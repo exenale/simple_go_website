@@ -84,10 +84,11 @@ func getAllMarkers() []htmlLoc {
 	var htmlWanted string
 	for _, copics := range allMarkers {
 		if copics.Acquired {
-			htmlAcq = fmt.Sprintf("%s<div style=\"background-color: #%s ; width: 150px; padding: 10px; border: 1px solid green;\">%s</div>", htmlAcq, copics.ColorCode, copics.Name)
+			urlName := strings.Replace(copics.Name, " ", "_", -1)
+			htmlAcq = fmt.Sprintf("%s<a href= \"%s\"><div style=\"background-color: #%s ; width: 150px; padding: 10px; border: 1px solid green;\">%s</div></a>", htmlAcq, urlName, copics.ColorCode, copics.Name)
 		} else {
 			urlName := strings.Replace(copics.Name, " ", "_", -1)
-			htmlWanted = fmt.Sprintf("%s<a href= \"copic_markers\\%s\"><div style=\"background-color: #%s ; width: 150px; padding: 10px; border: 1px solid green;\">%s</div>", htmlWanted, urlName, copics.ColorCode, copics.Name)
+			htmlWanted = fmt.Sprintf("%s<a href= \"%s\"><div style=\"background-color: #%s ; width: 150px; padding: 10px; border: 1px solid green;\">%s</div></a>", htmlWanted, urlName, copics.ColorCode, copics.Name)
 		}
 	}
 	aquiredMarker := htmlLoc{
