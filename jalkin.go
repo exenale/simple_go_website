@@ -33,6 +33,7 @@ type htmlLoc struct {
 
 func main() {
 	http.HandleFunc("/copic_markers/", copicHandler)
+	http.HandleFunc("/copic_markers/*", singleMarkerHandler)
 	// http.HandleFunc("/edit/", editHandler)
 	// http.HandleFunc("/save/", saveHandler)
 	log.Fatal(http.ListenAndServe(":8090", nil))
@@ -44,11 +45,24 @@ func copicHandler(w http.ResponseWriter, r *http.Request) {
 		Title: "Copic markers",
 		Body:  []byte("test"),
 	}
+	markerName := r.URL.Query()["name"]
+	if markerName != nil {
+		p.Data = template.HTML(getOneMarker(markerName[0]).Name)
+		renderTemplate(w, "marker_page", &p)
+	}
 	markers := getAllMarkers()
 	p.AcquiredMarkers = template.HTML(markers[0].htmlString)
 	p.WantedMarkers = template.HTML(markers[1].htmlString)
 	renderTemplate(w, "copic_markers", &p)
 
+}
+
+func singleMarkerHandler(w http.ResponseWriter, r *http.Request) {
+	p := Page{
+		Title: "Copic markers",
+		Body:  []byte("test"),
+	}
+	renderTemplate(w, "marker_page", &p)
 }
 
 func (p *Page) save() error {
@@ -70,6 +84,16 @@ func renderTemplate(w http.ResponseWriter, tmpl string, p *Page) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func getOneMarker(markerName string) marker {
+	allMarkers := []marker{
+		{"Cobalt Blue", "0047ab", true},
+		{"Sap Green", "507d2a", true},
+		{"Fairy Red", "ffcccc", true},
+		{"Berry Cool", "ff00ff", false},
+	}
+	return allMarkers[0]
 }
 
 func getAllMarkers() []htmlLoc {
