@@ -11,7 +11,7 @@ import (
 
 var templates = template.Must(template.ParseFiles("public_html/copic_markers.html"))
 
-//Page dsdas
+//Page dsdasd
 type Page struct {
 	Title           string
 	Body            []byte
